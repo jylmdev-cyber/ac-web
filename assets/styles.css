@@ -1,0 +1,21 @@
+/* assets/styles.css */
+:root{
+  --color-primary: #2a9dff;
+  --color-accent:  #00c9b7;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar{display:none}
+.scrollbar-hide{ -ms-overflow-style:none; scrollbar-width:none;}
+.glass{ backdrop-filter: saturate(160%) blur(6px); background: rgba(255,255,255,.6)}
+.glass-dark{ backdrop-filter: saturate(160%) blur(8px); background: rgba(15,23,42,.6)}
+
+/* Sidebar polish */
+.sidebar-link:hover { background-color: rgba(42, 157, 255, 0.1); }
+.active-link { background-color: rgba(42, 157, 255, 0.15); border-left: 4px solid #2a9dff; }
+.gradient-bg { background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); }
+.sidebar { transition: transform .3s ease-in-out, width .3s ease-in-out; }
+.sidebar-collapsed { width: 80px; }
+.sidebar-collapsed .sidebar-text,
+.sidebar-collapsed .sidebar-subtitle { opacity:0; width:0; overflow:hidden; white-space:nowrap; }
+.sidebar-text, .sidebar-subtitle { transition: opacity .2s, width .2s; }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="site-title">AC Technology — Soluciones Integrales</title>
+  <meta name="description" content="Landing de AC Technology administrada por panel." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {50:'#eef7ff',100:'#d9eeff',200:'#bce1ff',300:'#8fd0ff',400:'#5ab9ff',500:'#2a9dff',600:'#107fe6',700:'#0a65b8',800:'#0a4d8a',900:'#0b4070',950:'#072b4b'},
+            accent:  {50:'#ecfffb',100:'#c5fff3',200:'#8affea',300:'#4df9dd',400:'#1ce5cd',500:'#00c9b7',600:'#00a398',700:'#047a74',800:'#0a5f5c',900:'#0b4f4d',950:'#042f30'}
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans","Inter","system-ui","-apple-system","Segoe UI","Roboto","Ubuntu","Cantarell","Noto Sans","sans-serif"],
+            display: ["Poppins","Inter","system-ui","sans-serif"]
+          },
+          boxShadow: { soft:'0 10px 30px rgba(0,0,0,0.08)' }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="antialiased bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100">
+  <header id="header"></header>
+
+  <section id="inicio"></section>
+  <section id="servicios" class="py-16 sm:py-24"></section>
+  <section id="marcas" class="bg-slate-50 py-14 dark:bg-slate-900/40"></section>
+  <section id="showroom" class="py-20"></section>
+  <section id="proyectos" class="py-16 sm:py-24"></section>
+  <section id="contacto" class="bg-slate-50 py-16 dark:bg-slate-900/40"></section>
+
+  <footer id="footer" class="border-t py-10 text-sm dark:border-slate-800"></footer>
+
+  <a id="wa-fab" target="_blank" class="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:scale-105" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp text-2xl"></i>
+  </a>
+
+  <script type="module" src="assets/site.js"></script>
+</body>
+</html>

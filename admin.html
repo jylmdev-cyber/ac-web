@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrativo — AC Technology</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {50:'#eef7ff',100:'#d9eeff',200:'#bce1ff',300:'#8fd0ff',400:'#5ab9ff',500:'#2a9dff',600:'#107fe6',700:'#0a65b8',800:'#0a4d8a',900:'#0b4070',950:'#072b4b'},
+            accent:  {50:'#ecfffb',100:'#c5fff3',200:'#8affea',300:'#4df9dd',400:'#1ce5cd',500:'#00c9b7',600:'#00a398',700:'#047a74',800:'#0a5f5c',900:'#0b4f4d',950:'#042f30'}
+          },
+          boxShadow: { soft:'0 10px 30px rgba(0,0,0,0.08)' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-slate-100">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar w-64 bg-white dark:bg-slate-900 shadow-xl flex-shrink-0 border-r border-slate-200 dark:border-slate-800">
+      <div class="p-6 border-b border-slate-200 dark:border-slate-800 gradient-bg">
+        <div class="flex items-center gap-3">
+          <div class="h-12 w-12 rounded-xl bg-white/90 grid place-items-center text-primary-600 font-bold text-xl shadow-lg flex-shrink-0">AC</div>
+          <div class="sidebar-text">
+            <h1 class="text-xl font-bold text-white">AC Technology</h1>
+            <p class="text-xs text-white/80 sidebar-subtitle">Panel Administrativo</p>
+          </div>
+        </div>
+      </div>
+      <nav class="p-4 space-y-1 overflow-y-auto" style="max-height: calc(100vh - 180px);">
+        <a href="#s-dashboard" class="sidebar-link active-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-chart-line w-5 text-center"></i><span class="font-medium sidebar-text">Dashboard</span></a>
+        <a href="#s-hero" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-star w-5 text-center"></i><span class="font-medium sidebar-text">Hero / Inicio</span></a>
+        <a href="#s-servicios" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-network-wired w-5 text-center"></i><span class="font-medium sidebar-text">Servicios</span></a>
+        <a href="#s-marcas" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-handshake w-5 text-center"></i><span class="font-medium sidebar-text">Marcas</span></a>
+        <a href="#s-showroom" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-store w-5 text-center"></i><span class="font-medium sidebar-text">Showroom</span></a>
+        <a href="#s-proyectos" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-briefcase w-5 text-center"></i><span class="font-medium sidebar-text">Proyectos</span></a>
+        <a href="#s-contacto" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-envelope w-5 text-center"></i><span class="font-medium sidebar-text">Contacto</span></a>
+        <a href="#s-links" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-link w-5 text-center"></i><span class="font-medium sidebar-text">Redes & Links</span></a>
+        <div class="border-t border-slate-200 dark:border-slate-800 my-3"></div>
+        <a href="#s-tema" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition"><i class="fa-solid fa-palette w-5 text-center"></i><span class="font-medium sidebar-text">Tema</span></a>
+        <a href="index.html" target="_blank" class="sidebar-link flex items-center gap-3 p-3 rounded-xl mb-1 transition text-accent-700"><i class="fa-solid fa-external-link-alt w-5 text-center"></i><span class="font-medium sidebar-text">Ver Landing</span></a>
+      </nav>
+      <div class="absolute bottom-0 w-64 p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 sidebar-footer">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold shadow flex-shrink-0">AC</div>
+          <div class="sidebar-text overflow-hidden">
+            <p class="text-sm font-semibold truncate">Admin</p>
+            <p class="text-xs text-slate-500 truncate sidebar-subtitle">admin@actechnology.pe</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto">
+      <header class="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+        <div class="flex items-center justify-between px-4 sm:px-8 py-4">
+          <div class="flex items-center gap-4">
+            <button id="btn-collapse" class="hidden lg:block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition"><i class="fa-solid fa-bars text-slate-600 dark:text-slate-300 text-xl"></i></button>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold" id="page-title">Dashboard</h2>
+              <p class="text-xs sm:text-sm text-slate-500 mt-1 hidden sm:block">Administra todo el contenido de la landing</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 sm:gap-4">
+            <a href="index.html" target="_blank" class="rounded-xl border px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-regular fa-eye mr-2"></i>Vista</a>
+            <button id="btn-theme" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition"><i id="i-theme" class="fa-solid fa-moon text-lg"></i></button>
+          </div>
+        </div>
+      </header>
+
+      <div id="content" class="p-4 sm:p-6 lg:p-8 space-y-8"></div>
+    </main>
+  </div>
+
+  <script type="module" src="assets/admin.js"></script>
+</body>
+</html>
