@@ -1,0 +1,35 @@
+{% extends 'cms/dashboard/base.html' %}
+
+{% block title %}Eliminar Marca{% endblock %}
+{% block page_title %}Eliminar Marca{% endblock %}
+{% block page_subtitle %}Confirma la eliminación{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl">
+    <div class="bg-white rounded-2xl shadow-sm border border-red-200 p-6">
+        <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                <i class="fa-solid fa-exclamation-triangle text-3xl text-red-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">¿Estás seguro?</h3>
+            <p class="text-slate-600">
+                Estás a punto de eliminar el marca <strong>"{{ object.title }}"</strong>.
+                Esta acción no se puede deshacer.
+            </p>
+        </div>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="flex items-center justify-center gap-3">
+                <a href="{% url 'partner_list' %}" class="px-6 py-2 border border-slate-300 rounded-xl hover:bg-slate-50">
+                    Cancelar
+                </a>
+                <button type="submit" class="px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700">
+                    <i class="fa-solid fa-trash mr-2"></i>
+                    Sí, eliminar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
