@@ -1,0 +1,102 @@
+{% extends 'cms/dashboard/base.html' %}
+
+{% block title %}{{ object|default:"Crear" }} Proyecto{% endblock %}
+{% block page_title %}{% if object %}Editar{% else %}Crear{% endif %} Proyecto{% endblock %}
+{% block page_subtitle %}Completa la información del proyecto{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Título <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.title.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Descripción <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.description.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Icono (FontAwesome) <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.icon }}
+                    <p class="mt-1 text-xs text-slate-500">Ej: fa-solid fa-network-wired</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Orden
+                    </label>
+                    {{ form.order }}
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Imagen (opcional)
+                    </label>
+                    {{ form.image }}
+                    {% if object.image %}
+                        <div class="mt-2">
+                            <img src="{{ object.image.url }}" alt="{{ object.title }}" class="w-32 h-32 object-cover rounded-xl">
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Punto clave 1
+                    </label>
+                    {{ form.point1 }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Punto clave 2
+                    </label>
+                    {{ form.point2 }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Punto clave 3
+                    </label>
+                    {{ form.point3 }}
+                </div>
+
+                <div>
+                    <label class="flex items-center gap-2">
+                        {{ form.active }}
+                        <span class="text-sm font-medium text-slate-700">Activo</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-6 border-t">
+                <a href="{% url 'project_list' %}" class="px-4 py-2 border border-slate-300 rounded-xl hover:bg-slate-50">
+                    Cancelar
+                </a>
+                <button type="submit" class="px-6 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700">
+                    <i class="fa-solid fa-save mr-2"></i>
+                    Guardar Proyecto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

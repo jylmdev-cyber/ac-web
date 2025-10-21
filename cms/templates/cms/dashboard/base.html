@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Panel Admin{% endblock %} - AC Technology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {50:'#eef7ff',100:'#d9eeff',200:'#bce1ff',300:'#8fd0ff',400:'#5ab9ff',500:'#2a9dff',600:'#107fe6',700:'#0a65b8',800:'#0a4d8a',900:'#0b4070',950:'#072b4b'},
+                        accent:  {50:'#ecfffb',100:'#c5fff3',200:'#8affea',300:'#4df9dd',400:'#1ce5cd',500:'#00c9b7',600:'#00a398',700:'#047a74',800:'#0a5f5c',900:'#0b4f4d',950:'#042f30'}
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="bg-slate-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl flex-shrink-0 border-r border-slate-200">
+            <div class="p-6 border-b border-slate-200 bg-gradient-to-br from-primary-600 to-accent-500">
+                <div class="flex items-center gap-3">
+                    <div class="h-12 w-12 rounded-xl bg-white/90 grid place-items-center text-primary-600 font-bold text-xl shadow-lg">AC</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">AC Technology</h1>
+                        <p class="text-xs text-white/80">Panel Administrativo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="p-4 space-y-1 overflow-y-auto" style="max-height: calc(100vh - 180px);">
+                <a href="{% url 'dashboard' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition {% if request.resolver_match.url_name == 'dashboard' or request.resolver_match.url_name == 'panel-admin' %}bg-primary-50 text-primary-700{% endif %}">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <a href="{% url 'hero_edit' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-star w-5 text-center"></i>
+                    <span class="font-medium">Hero / Inicio</span>
+                </a>
+                <a href="{% url 'service_list' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-network-wired w-5 text-center"></i>
+                    <span class="font-medium">Servicios</span>
+                </a>
+                <a href="{% url 'partner_list' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-handshake w-5 text-center"></i>
+                    <span class="font-medium">Marcas</span>
+                </a>
+                <a href="{% url 'showroom_edit' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-store w-5 text-center"></i>
+                    <span class="font-medium">Showroom</span>
+                </a>
+                <a href="{% url 'project_list' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-briefcase w-5 text-center"></i>
+                    <span class="font-medium">Proyectos</span>
+                </a>
+                <a href="{% url 'contact_edit' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-envelope w-5 text-center"></i>
+                    <span class="font-medium">Contacto</span>
+                </a>
+                
+                <div class="border-t border-slate-200 my-3"></div>
+                
+                {% if user.is_staff or user.role == 'admin' %}
+                <a href="{% url 'user_list' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-users w-5 text-center"></i>
+                    <span class="font-medium">Usuarios</span>
+                </a>
+                {% endif %}
+                
+                <a href="{% url 'site_config_edit' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-cog w-5 text-center"></i>
+                    <span class="font-medium">Configuración</span>
+                </a>
+                <a href="{% url 'index' %}" target="_blank" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition text-accent-700">
+                    <i class="fa-solid fa-external-link-alt w-5 text-center"></i>
+                    <span class="font-medium">Ver Landing</span>
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-0 w-64 p-4 border-t border-slate-200 bg-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-600 to-accent-500 flex items-center justify-center text-white font-bold">
+                            {{ user.username|slice:":1"|upper }}
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-sm font-semibold truncate">{{ user.username }}</p>
+                            <p class="text-xs text-slate-500 truncate">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'logout' %}" class="p-2 hover:bg-slate-100 rounded-lg" title="Cerrar sesión">
+                        <i class="fa-solid fa-sign-out-alt text-slate-600"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-10">
+                <div class="flex items-center justify-between px-8 py-4">
+                    <div>
+                        <h2 class="text-2xl font-bold">{% block page_title %}Panel Administrativo{% endblock %}</h2>
+                        <p class="text-sm text-slate-500 mt-1">{% block page_subtitle %}Administra el contenido de tu sitio web{% endblock %}</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <a href="{% url 'index' %}" target="_blank" class="rounded-xl border px-3 py-2 text-sm hover:bg-slate-100">
+                            <i class="fa-regular fa-eye mr-2"></i>Vista previa
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="mb-4 p-4 rounded-xl {% if message.tags == 'success' %}bg-green-50 border border-green-200 text-green-700{% elif message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-blue-50 border border-blue-200 text-blue-700{% endif %}">
+                        <i class="fa-solid {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %} mr-2"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

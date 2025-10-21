@@ -1,25 +1,71 @@
-# 🌐 AC Suite — Landing + Panel de Control (Vanilla + Tailwind)
+# 🌐 AC Suite — Landing + Panel de Control
 
-Proyecto unificado que combina la **landing page de AC Technology** y su **panel administrativo**, permitiendo editar cada sección del sitio web de forma visual sin backend, con persistencia en `localStorage`.
+Proyecto que combina la **landing page de AC Technology** con un **sistema de gestión de contenidos (CMS)** completo.
+
+## 🎯 Versiones Disponibles
+
+### 1. **Versión Vanilla JS** (Archivos HTML originales)
+- 100% JavaScript Vanilla (sin frameworks)
+- Persistencia en `localStorage`
+- Sin backend necesario
+- **Ubicación**: `/html_backup/`
+
+### 2. **Versión Django** (Integración Completa) ⭐ **NUEVA**
+- Framework Django 5.2.7
+- Base de datos SQLite
+- Panel administrativo completo
+- Gestión de usuarios con roles
+- Subida de archivos/imágenes
+- **Documentación**: Ver `DJANGO_README.md`
 
 ---
 
-## 🚀 Características principales
+## 🚀 Características de la Versión Django
 
-- **Arquitectura 100% Vanilla JS** (sin frameworks ni build necesario).
-- **Tailwind CSS CDN** con soporte de **modo oscuro** (`darkMode: 'class'`).
-- **Sistema de configuración persistente (CMS local)** guardado en `localStorage`.
-- **Panel administrativo** con edición visual de:
-  - Hero (título, subtítulo, CTAs, imagen)
-  - Servicios (título, descripción, íconos, puntos)
-  - Marcas / Partners
-  - Showroom (texto, imagen, enlace)
-  - Proyectos
-  - Contacto (email, teléfono, WhatsApp)
-  - Redes sociales
-  - Tema (colores primario/acento, modo claro/oscuro/sistema)
-- **Sin dependencia de servidor** (totalmente estático).
-- **Sincronización en tiempo real** entre `index.html` y `admin.html` usando eventos `storage`.
+✅ **Sitio web público** - Accesible sin autenticación
+✅ **Panel administrativo** (`/panel-admin`) - Con autenticación requerida
+✅ **Gestión de imágenes** - Sube archivos o usa URLs externas
+✅ **Sistema de usuarios** - Con roles: Admin, Editor, Visualizador
+✅ **CRUD completo** - Para todos los modelos desde el dashboard
+✅ **Templates dinámicos** - Condicionales para mostrar imágenes o placeholders
+✅ **Responsive Design** - Con Tailwind CSS
+✅ **Base de datos** - SQLite (desarrollo) / PostgreSQL/MySQL (producción)
+
+### Gestión de Contenido
+
+- **Hero Section** - Sección principal con título, subtítulo, CTAs e imagen
+- **Servicios** - CRUD completo con iconos, puntos clave e imágenes
+- **Marcas Aliadas** - Logos de partners con orden personalizable
+- **Showroom** - Información y enlace al showroom
+- **Proyectos** - Casos destacados con categorías y destacados
+- **Contacto** - Información completa con redes sociales
+- **Usuarios** - Gestión de usuarios con roles y permisos
+
+---
+
+## 🚦 Inicio Rápido - Versión Django
+
+### Instalación
+
+```bash
+# 1. Instalar dependencias
+pip install django pillow
+
+# 2. Aplicar migraciones
+python3 manage.py migrate
+
+# 3. Crear superusuario
+python3 manage.py createsuperuser
+
+# 4. Ejecutar servidor
+python3 manage.py runserver
+
+# 5. Acceder al sitio
+# Página principal: http://localhost:8000/
+# Panel admin: http://localhost:8000/panel-admin/
+```
+
+Ver `DJANGO_README.md` para documentación completa.
 
 ---
 

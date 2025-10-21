@@ -1,0 +1,124 @@
+{% extends 'cms/dashboard/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Vista general del contenido{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Card: Servicios -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-blue-100 rounded-xl">
+                <i class="fa-solid fa-network-wired text-2xl text-blue-600"></i>
+            </div>
+            <span class="text-3xl font-bold text-slate-800">{{ total_services }}</span>
+        </div>
+        <h3 class="text-sm font-medium text-slate-600">Servicios</h3>
+        <a href="{% url 'service_list' %}" class="text-sm text-blue-600 hover:underline mt-2 inline-block">Ver todos →</a>
+    </div>
+
+    <!-- Card: Marcas -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-teal-100 rounded-xl">
+                <i class="fa-solid fa-handshake text-2xl text-teal-600"></i>
+            </div>
+            <span class="text-3xl font-bold text-slate-800">{{ total_partners }}</span>
+        </div>
+        <h3 class="text-sm font-medium text-slate-600">Marcas Aliadas</h3>
+        <a href="{% url 'partner_list' %}" class="text-sm text-teal-600 hover:underline mt-2 inline-block">Ver todas →</a>
+    </div>
+
+    <!-- Card: Proyectos -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-purple-100 rounded-xl">
+                <i class="fa-solid fa-briefcase text-2xl text-purple-600"></i>
+            </div>
+            <span class="text-3xl font-bold text-slate-800">{{ total_projects }}</span>
+        </div>
+        <h3 class="text-sm font-medium text-slate-600">Proyectos</h3>
+        <a href="{% url 'project_list' %}" class="text-sm text-purple-600 hover:underline mt-2 inline-block">Ver todos →</a>
+    </div>
+
+    <!-- Card: Usuarios -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-orange-100 rounded-xl">
+                <i class="fa-solid fa-users text-2xl text-orange-600"></i>
+            </div>
+            <span class="text-3xl font-bold text-slate-800">{{ total_users }}</span>
+        </div>
+        <h3 class="text-sm font-medium text-slate-600">Usuarios</h3>
+        {% if user.is_staff or user.role == 'admin' %}
+        <a href="{% url 'user_list' %}" class="text-sm text-orange-600 hover:underline mt-2 inline-block">Ver todos →</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Servicios Recientes -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <h3 class="text-lg font-bold mb-4">Servicios Recientes</h3>
+        <div class="space-y-3">
+            {% for service in recent_services %}
+            <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition">
+                <div class="flex items-center gap-3">
+                    <i class="{{ service.icon }} text-primary-600"></i>
+                    <div>
+                        <p class="font-medium">{{ service.title }}</p>
+                        <p class="text-xs text-slate-500">{{ service.created_at|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+                <span class="px-2 py-1 rounded-full text-xs {% if service.active %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}">
+                    {% if service.active %}Activo{% else %}Inactivo{% endif %}
+                </span>
+            </div>
+            {% empty %}
+            <p class="text-slate-500 text-sm">No hay servicios registrados</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Proyectos Recientes -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <h3 class="text-lg font-bold mb-4">Proyectos Recientes</h3>
+        <div class="space-y-3">
+            {% for project in recent_projects %}
+            <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition">
+                <div>
+                    <p class="font-medium">{{ project.title }}</p>
+                    <p class="text-xs text-slate-500">{{ project.category }} • {{ project.created_at|date:"d/m/Y" }}</p>
+                </div>
+                <span class="px-2 py-1 rounded-full text-xs {% if project.featured %}bg-yellow-100 text-yellow-700{% else %}bg-slate-100 text-slate-700{% endif %}">
+                    {% if project.featured %}Destacado{% else %}Normal{% endif %}
+                </span>
+            </div>
+            {% empty %}
+            <p class="text-slate-500 text-sm">No hay proyectos registrados</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href="{% url 'hero_edit' %}" class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition">
+        <i class="fa-solid fa-star text-2xl text-primary-600 mb-3"></i>
+        <h4 class="font-bold mb-1">Editar Hero</h4>
+        <p class="text-sm text-slate-600">Modifica la sección principal del sitio</p>
+    </a>
+    
+    <a href="{% url 'showroom_edit' %}" class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition">
+        <i class="fa-solid fa-store text-2xl text-accent-600 mb-3"></i>
+        <h4 class="font-bold mb-1">Editar Showroom</h4>
+        <p class="text-sm text-slate-600">Actualiza información del showroom</p>
+    </a>
+    
+    <a href="{% url 'contact_edit' %}" class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition">
+        <i class="fa-solid fa-envelope text-2xl text-blue-600 mb-3"></i>
+        <h4 class="font-bold mb-1">Editar Contacto</h4>
+        <p class="text-sm text-slate-600">Modifica datos de contacto</p>
+    </a>
+</div>
+{% endblock %}
