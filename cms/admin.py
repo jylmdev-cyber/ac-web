@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (
     User, SiteConfig, HeroSection, Service, Partner,
-    Showroom, Project, ContactInfo
+    Showroom, Project, ContactInfo, SEOConfig
 )
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
@@ -110,3 +110,20 @@ class ContactInfoAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(SEOConfig)
+class SEOConfigAdmin(admin.ModelAdmin):
+    """Admin para configuración SEO"""
+    list_display = ['meta_title', 'updated_at', 'updated_by']
+    readonly_fields = ['updated_at', 'updated_by']
+
+    def has_add_permission(self, request):
+        return not SEOConfig.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        super().save_model(request, obj, form, change)

@@ -1,0 +1,290 @@
+{% extends 'cms/dashboard/base.html' %}
+
+{% block title %}Configuración SEO{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block page_subtitle %}Optimiza tu sitio para motores de búsqueda y redes sociales{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl">
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Meta Tags Básicos -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-search text-primary-600"></i>
+                Meta Tags Básicos
+            </h3>
+            <p class="text-sm text-slate-600 mb-4">Información que aparece en los resultados de búsqueda de Google</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Meta Title <span class="text-red-500">*</span>
+                        <span class="text-xs text-slate-500 font-normal">(máx. 60 caracteres)</span>
+                    </label>
+                    {{ form.meta_title }}
+                    <p class="mt-1 text-xs text-slate-500">
+                        Caracteres: <span id="meta-title-count">0</span>/60
+                    </p>
+                    {% if form.meta_title.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.meta_title.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Meta Description <span class="text-red-500">*</span>
+                        <span class="text-xs text-slate-500 font-normal">(máx. 160 caracteres)</span>
+                    </label>
+                    {{ form.meta_description }}
+                    <p class="mt-1 text-xs text-slate-500">
+                        Caracteres: <span id="meta-desc-count">0</span>/160
+                    </p>
+                    {% if form.meta_description.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.meta_description.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Meta Keywords
+                    </label>
+                    {{ form.meta_keywords }}
+                    <p class="mt-1 text-xs text-slate-500">Separa las palabras clave con comas</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        URL Canónica
+                    </label>
+                    {{ form.canonical_url }}
+                    <p class="mt-1 text-xs text-slate-500">URL principal de tu sitio web</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Robots Meta Tag
+                    </label>
+                    {{ form.robots }}
+                    <p class="mt-1 text-xs text-slate-500">Controla cómo los motores de búsqueda indexan tu sitio</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Graph (Redes Sociales) -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-brands fa-facebook text-blue-600"></i>
+                Open Graph (Facebook, LinkedIn)
+            </h3>
+            <p class="text-sm text-slate-600 mb-4">Cómo se ve tu sitio cuando se comparte en redes sociales</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        OG Title
+                        <span class="text-xs text-slate-500 font-normal">(si está vacío, usa Meta Title)</span>
+                    </label>
+                    {{ form.og_title }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        OG Description
+                        <span class="text-xs text-slate-500 font-normal">(si está vacío, usa Meta Description)</span>
+                    </label>
+                    {{ form.og_description }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        OG Image
+                        <span class="text-xs text-slate-500 font-normal">(1200x630px recomendado)</span>
+                    </label>
+                    {{ form.og_image }}
+                    {% if seo.og_image %}
+                        <div class="mt-2">
+                            <img src="{{ seo.og_image.url }}" alt="OG Image" class="w-64 h-auto rounded-xl border">
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        OG Type
+                    </label>
+                    {{ form.og_type }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Twitter Cards -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-brands fa-twitter text-blue-400"></i>
+                Twitter Cards
+            </h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Twitter Card Type
+                    </label>
+                    {{ form.twitter_card }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Twitter Site
+                    </label>
+                    {{ form.twitter_site }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Twitter Creator
+                    </label>
+                    {{ form.twitter_creator }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Iconos y Favicons -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-image text-purple-600"></i>
+                Iconos del Sitio
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Favicon
+                        <span class="text-xs text-slate-500 font-normal">(32x32px o 64x64px)</span>
+                    </label>
+                    {{ form.favicon }}
+                    {% if seo.favicon %}
+                        <div class="mt-2">
+                            <img src="{{ seo.favicon.url }}" alt="Favicon" class="w-16 h-16 rounded">
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Apple Touch Icon
+                        <span class="text-xs text-slate-500 font-normal">(180x180px)</span>
+                    </label>
+                    {{ form.apple_touch_icon }}
+                    {% if seo.apple_touch_icon %}
+                        <div class="mt-2">
+                            <img src="{{ seo.apple_touch_icon.url }}" alt="Apple Touch Icon" class="w-16 h-16 rounded">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics y Verificaciones -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-chart-bar text-green-600"></i>
+                Analytics y Verificaciones
+            </h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Google Analytics ID
+                    </label>
+                    {{ form.google_analytics_id }}
+                    <p class="mt-1 text-xs text-slate-500">Ej: G-XXXXXXXXXX o UA-XXXXXXXXX-X</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Google Site Verification
+                    </label>
+                    {{ form.google_site_verification }}
+                    <p class="mt-1 text-xs text-slate-500">Código de verificación de Google Search Console</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Bing Site Verification
+                    </label>
+                    {{ form.bing_site_verification }}
+                    <p class="mt-1 text-xs text-slate-500">Código de verificación de Bing Webmaster Tools</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schema.org -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-code text-orange-600"></i>
+                Schema.org (Datos Estructurados)
+            </h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Nombre de la Organización
+                    </label>
+                    {{ form.schema_organization_name }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Logo de la Organización (URL)
+                    </label>
+                    {{ form.schema_organization_logo }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Autor
+                    </label>
+                    {{ form.author }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex items-center justify-end gap-3">
+            <a href="{% url 'dashboard' %}" class="px-4 py-2 border border-slate-300 rounded-xl hover:bg-slate-50">
+                Cancelar
+            </a>
+            <button type="submit" class="px-6 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700">
+                <i class="fa-solid fa-save mr-2"></i>
+                Guardar Configuración SEO
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+// Contador de caracteres
+document.addEventListener('DOMContentLoaded', function() {
+    const metaTitle = document.querySelector('input[name="meta_title"]');
+    const metaDesc = document.querySelector('textarea[name="meta_description"]');
+    
+    if (metaTitle) {
+        const updateTitleCount = () => {
+            document.getElementById('meta-title-count').textContent = metaTitle.value.length;
+        };
+        metaTitle.addEventListener('input', updateTitleCount);
+        updateTitleCount();
+    }
+    
+    if (metaDesc) {
+        const updateDescCount = () => {
+            document.getElementById('meta-desc-count').textContent = metaDesc.value.length;
+        };
+        metaDesc.addEventListener('input', updateDescCount);
+        updateDescCount();
+    }
+});
+</script>
+{% endblock %}
