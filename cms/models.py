@@ -452,3 +452,206 @@ class ContactInfo(models.Model):
         base = f'https://wa.me/{self.whatsapp}'
         msg = urllib.parse.quote(self.whatsapp_message)
         return f'{base}?text={msg}'
+
+
+# ========== CONFIGURACIÓN SEO ==========
+class SEOConfig(models.Model):
+    """Configuración SEO del sitio web (Singleton)"""
+
+    # Meta Tags Básicos
+    meta_title = models.CharField(
+        max_length=60,
+        default='AC Technology — Soluciones Integrales en Tecnología',
+        help_text='Título que aparece en Google (máx. 60 caracteres)',
+        verbose_name='Meta Title'
+    )
+    meta_description = models.TextField(
+        max_length=160,
+        default='Expertos en integración de redes, audio/video, domótica y seguridad para empresas, instituciones educativas y residencias.',
+        help_text='Descripción que aparece en Google (máx. 160 caracteres)',
+        verbose_name='Meta Description'
+    )
+    meta_keywords = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Palabras clave separadas por comas',
+        verbose_name='Meta Keywords'
+    )
+    canonical_url = models.URLField(
+        blank=True,
+        help_text='URL canónica del sitio (ej: https://actechnology.com.pe)',
+        verbose_name='URL Canónica'
+    )
+
+    # Robots
+    ROBOTS_CHOICES = (
+        ('index, follow', 'Index, Follow (Permitir todo)'),
+        ('noindex, follow', 'No Index, Follow (No indexar, seguir enlaces)'),
+        ('index, nofollow', 'Index, No Follow (Indexar, no seguir enlaces)'),
+        ('noindex, nofollow', 'No Index, No Follow (Bloquear todo)'),
+    )
+    robots = models.CharField(
+        max_length=50,
+        choices=ROBOTS_CHOICES,
+        default='index, follow',
+        verbose_name='Robots Meta Tag'
+    )
+
+    # Open Graph (Facebook, LinkedIn, etc.)
+    og_title = models.CharField(
+        max_length=95,
+        blank=True,
+        help_text='Título para redes sociales (si está vacío, usa meta_title)',
+        verbose_name='OG Title'
+    )
+    og_description = models.TextField(
+        max_length=200,
+        blank=True,
+        help_text='Descripción para redes sociales (si está vacío, usa meta_description)',
+        verbose_name='OG Description'
+    )
+    og_image = models.ImageField(
+        upload_to='seo/',
+        blank=True,
+        null=True,
+        help_text='Imagen para compartir en redes sociales (1200x630px recomendado)',
+        verbose_name='OG Image'
+    )
+    og_type = models.CharField(
+        max_length=50,
+        default='website',
+        help_text='Tipo de contenido (website, article, etc.)',
+        verbose_name='OG Type'
+    )
+
+    # Twitter Cards
+    twitter_card = models.CharField(
+        max_length=50,
+        choices=(
+            ('summary', 'Summary'),
+            ('summary_large_image', 'Summary Large Image'),
+            ('app', 'App'),
+            ('player', 'Player'),
+        ),
+        default='summary_large_image',
+        verbose_name='Twitter Card Type'
+    )
+    twitter_site = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text='@usuario de Twitter del sitio',
+        verbose_name='Twitter Site'
+    )
+    twitter_creator = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text='@usuario de Twitter del creador',
+        verbose_name='Twitter Creator'
+    )
+
+    # Favicon
+    favicon = models.ImageField(
+        upload_to='seo/',
+        blank=True,
+        null=True,
+        help_text='Favicon del sitio (32x32px o 64x64px)',
+        verbose_name='Favicon'
+    )
+
+    # Apple Touch Icon
+    apple_touch_icon = models.ImageField(
+        upload_to='seo/',
+        blank=True,
+        null=True,
+        help_text='Icono para dispositivos Apple (180x180px)',
+        verbose_name='Apple Touch Icon'
+    )
+
+    # Google Analytics
+    google_analytics_id = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text='ID de Google Analytics (ej: G-XXXXXXXXXX o UA-XXXXXXXXX-X)',
+        verbose_name='Google Analytics ID'
+    )
+
+    # Google Search Console
+    google_site_verification = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text='Código de verificación de Google Search Console',
+        verbose_name='Google Site Verification'
+    )
+
+    # Microsoft Bing
+    bing_site_verification = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text='Código de verificación de Bing Webmaster Tools',
+        verbose_name='Bing Site Verification'
+    )
+
+    # Schema.org JSON-LD
+    schema_organization_name = models.CharField(
+        max_length=100,
+        default='AC Technology',
+        verbose_name='Nombre de la Organización (Schema)'
+    )
+    schema_organization_logo = models.URLField(
+        blank=True,
+        help_text='URL del logo de la organización',
+        verbose_name='Logo de la Organización (Schema)'
+    )
+
+    # Otros
+    author = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name='Autor'
+    )
+
+    # Campos de auditoría
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Última actualización')
+    updated_by = models.ForeignKey(
+        'User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Actualizado por'
+    )
+
+    class Meta:
+        verbose_name = 'Configuración SEO'
+        verbose_name_plural = 'Configuración SEO'
+
+    def save(self, *args, **kwargs):
+        # Asegurar que solo exista una instancia (Singleton)
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Prevenir eliminación
+        pass
+
+    @classmethod
+    def load(cls):
+        """Cargar o crear la configuración SEO"""
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return "Configuración SEO"
+
+    def get_og_title(self):
+        """Retorna og_title o meta_title como fallback"""
+        return self.og_title or self.meta_title
+
+    def get_og_description(self):
+        """Retorna og_description o meta_description como fallback"""
+        return self.og_description or self.meta_description
+
+    def get_og_image_url(self):
+        """Retorna URL de la imagen OG o None"""
+        if self.og_image:
+            return self.og_image.url
+        return None

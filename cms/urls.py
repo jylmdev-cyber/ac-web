@@ -50,4 +50,7 @@ urlpatterns = [
 
     # ========== CONTACTO ==========
     path('panel-admin/contact/', views.contact_edit, name='contact_edit'),
+
+    # ========== SEO ==========
+    path('panel-admin/seo/', views.seo_edit, name='seo_edit'),
 ]

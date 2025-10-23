@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import (
     User, SiteConfig, HeroSection, Service, Partner,
-    Showroom, Project, ContactInfo
+    Showroom, Project, ContactInfo, SEOConfig
 )
 
 
@@ -154,4 +154,33 @@ class ContactInfoForm(forms.ModelForm):
             'youtube': forms.URLInput(attrs={'class': 'form-control'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class SEOConfigForm(forms.ModelForm):
+    """Formulario para configuracion SEO"""
+    class Meta:
+        model = SEOConfig
+        exclude = ['updated_at', 'updated_by']
+        widgets = {
+            'meta_title': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '60'}),
+            'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'maxlength': '160'}),
+            'meta_keywords': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'keyword1, keyword2, keyword3'}),
+            'canonical_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://actechnology.com.pe'}),
+            'robots': forms.Select(attrs={'class': 'form-control'}),
+            'og_title': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '95'}),
+            'og_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'maxlength': '200'}),
+            'og_image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'og_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'twitter_card': forms.Select(attrs={'class': 'form-control'}),
+            'twitter_site': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '@actechnology'}),
+            'twitter_creator': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '@usuario'}),
+            'favicon': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'apple_touch_icon': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'google_analytics_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'G-XXXXXXXXXX'}),
+            'google_site_verification': forms.TextInput(attrs={'class': 'form-control'}),
+            'bing_site_verification': forms.TextInput(attrs={'class': 'form-control'}),
+            'schema_organization_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'schema_organization_logo': forms.URLInput(attrs={'class': 'form-control'}),
+            'author': forms.TextInput(attrs={'class': 'form-control'}),
         }

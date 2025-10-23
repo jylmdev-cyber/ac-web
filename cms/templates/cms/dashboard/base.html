@@ -65,8 +65,13 @@
                     <i class="fa-solid fa-envelope w-5 text-center"></i>
                     <span class="font-medium">Contacto</span>
                 </a>
-                
+
                 <div class="border-t border-slate-200 my-3"></div>
+
+                <a href="{% url 'seo_edit' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-search w-5 text-center"></i>
+                    <span class="font-medium">SEO</span>
+                </a>
                 
                 {% if user.is_staff or user.role == 'admin' %}
                 <a href="{% url 'user_list' %}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition">

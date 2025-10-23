@@ -12,11 +12,12 @@ from django.http import JsonResponse
 
 from .models import (
     User, SiteConfig, HeroSection, Service, Partner,
-    Showroom, Project, ContactInfo
+    Showroom, Project, ContactInfo, SEOConfig
 )
 from .forms import (
     CustomUserCreationForm, SiteConfigForm, HeroSectionForm,
-    ServiceForm, PartnerForm, ShowroomForm, ProjectForm, ContactInfoForm
+    ServiceForm, PartnerForm, ShowroomForm, ProjectForm, ContactInfoForm,
+    SEOConfigForm
 )
 
 
@@ -44,6 +45,7 @@ def index(request):
         'showroom': Showroom.load(),
         'projects': Project.objects.filter(active=True)[:3],  # Mostrar solo 3
         'contact': ContactInfo.load(),
+        'seo': SEOConfig.load(),  # Agregar configuración SEO
     }
     return render(request, 'cms/index.html', context)
 
@@ -353,4 +355,28 @@ def contact_edit(request):
     return render(request, 'cms/dashboard/contact/form.html', {
         'form': form,
         'title': 'Editar Contacto'
+    })
+
+
+# ========== SEO ==========
+@login_required(login_url='login')
+def seo_edit(request):
+    """Editar configuración SEO"""
+    seo = SEOConfig.load()
+
+    if request.method == 'POST':
+        form = SEOConfigForm(request.POST, request.FILES, instance=seo)
+        if form.is_valid():
+            seo_obj = form.save(commit=False)
+            seo_obj.updated_by = request.user
+            seo_obj.save()
+            messages.success(request, 'Configuración SEO actualizada exitosamente.')
+            return redirect('dashboard')
+    else:
+        form = SEOConfigForm(instance=seo)
+
+    return render(request, 'cms/dashboard/seo/form.html', {
+        'form': form,
+        'title': 'Configuración SEO',
+        'seo': seo
     })
